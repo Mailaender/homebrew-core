@@ -22,7 +22,7 @@ class CharmTools < Formula
   depends_on "charm"
   depends_on "cryptography"
   depends_on "libyaml"
-  depends_on "python@3.12"
+  depends_on "python@3.13"
 
   on_linux do
     depends_on "gmp"
@@ -123,6 +123,11 @@ class CharmTools < Formula
     sha256 "a6a6d916c910dc17e0ddc883358756c5a33d1b6dbdf5d6de86554f399053af58"
   end
 
+  resource "path-py" do
+    url "https://files.pythonhosted.org/packages/b6/e3/81be70016d58ade0f516191fa80152daba5453d0b07ce648d9daae86a188/path.py-12.5.0.tar.gz"
+    sha256 "8d885e8b2497aed005703d94e0fd97943401f035e42a136810308bff034529a8"
+  end
+
   resource "pathspec" do
     url "https://files.pythonhosted.org/packages/32/1a/6baf904503c3e943cae9605c9c88a43b964dea5b59785cf956091b341b08/pathspec-0.10.3.tar.gz"
     sha256 "56200de4077d9d0791465aa9095a01d421861e405b5096955051deefd697d6f6"
@@ -161,11 +166,6 @@ class CharmTools < Formula
   resource "ruamel-yaml" do
     url "https://files.pythonhosted.org/packages/d1/d6/eb2833ccba5ea36f8f4de4bcfa0d1a91eb618f832d430b70e3086821f251/ruamel.yaml-0.17.40.tar.gz"
     sha256 "6024b986f06765d482b5b07e086cc4b4cd05dd22ddcbc758fa23d54873cf313d"
-  end
-
-  resource "ruamel-yaml-clib" do
-    url "https://files.pythonhosted.org/packages/46/ab/bab9eb1566cd16f060b54055dd39cf6a34bfa0240c53a7218c43e974295b/ruamel.yaml.clib-0.2.8.tar.gz"
-    sha256 "beb2e0404003de9a4cab9753a8805a8fe9320ee6673136ed7f04255fe60bb512"
   end
 
   resource "secretstorage" do
@@ -214,10 +214,6 @@ class CharmTools < Formula
   end
 
   def install
-    # Work around ruamel.yaml.clib not building on Xcode 15.3, remove after a new release
-    # has resolved: https://sourceforge.net/p/ruamel-yaml-clib/tickets/32/
-    ENV.append_to_cflags "-Wno-incompatible-function-pointer-types" if DevelopmentTools.clang_build_version >= 1500
-
     virtualenv_install_with_resources
   end
 
