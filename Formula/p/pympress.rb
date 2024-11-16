@@ -25,7 +25,7 @@ class Pympress < Formula
   depends_on "libyaml"
   depends_on "poppler"
   depends_on "pygobject3"
-  depends_on "python@3.12"
+  depends_on "python@3.13"
 
   resource "watchdog" do
     url "https://files.pythonhosted.org/packages/95/a6/d6ef450393dac5734c63c40a131f66808d2e6f59f6165ab38c98fbe4e6ec/watchdog-3.0.0.tar.gz"
@@ -43,6 +43,7 @@ class Pympress < Formula
     (testpath/"Library/Preferences").mkpath
 
     system bin/"pympress", "--quit"
+    sleep 5
 
     # Check everything ran fine at least until reporting the version string in the log file
     # which means all dependencies got loaded OK. Do not check actual version numbers as it breaks --HEAD tests.
@@ -51,7 +52,7 @@ class Pympress < Formula
     else
       testpath/"Library/Logs/pympress.log"
     end
-    assert_predicate log, :exist?
+    assert_path_exists log
     assert_match "INFO:pympress.app:Pympress:", log.read
   end
 end
