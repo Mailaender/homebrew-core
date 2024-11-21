@@ -21,7 +21,7 @@ class Asymptote < Formula
   end
 
   depends_on "glm" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
   depends_on "fftw"
   depends_on "ghostscript"
   depends_on "gsl"
@@ -51,7 +51,7 @@ class Asymptote < Formula
     # Avoid use of MacTeX with these commands
     # (instead of `make all && make install`)
     touch buildpath/"doc/asy-latex.pdf"
-    system "make", "asy"
+    ENV.deparallelize { system "make", "asy" }
     system "make", "asy-keywords.el"
     system "make", "install-asy"
 
@@ -67,6 +67,6 @@ class Asymptote < Formula
     EOF
 
     system bin/"asy", testpath/"line.asy"
-    assert_predicate testpath/"line.pdf", :exist?
+    assert_path_exists testpath/"line.pdf"
   end
 end
