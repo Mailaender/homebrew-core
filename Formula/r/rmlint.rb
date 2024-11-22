@@ -19,7 +19,7 @@ class Rmlint < Formula
   end
 
   depends_on "gettext" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
   depends_on "scons" => :build
   depends_on "sphinx-doc" => :build
   depends_on "glib"
