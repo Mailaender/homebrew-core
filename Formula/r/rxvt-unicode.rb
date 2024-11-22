@@ -23,7 +23,7 @@ class RxvtUnicode < Formula
   end
 
   depends_on "cmake" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
 
   depends_on "fontconfig"
   depends_on "freetype"
@@ -77,9 +77,7 @@ class RxvtUnicode < Formula
   end
 
   test do
-    daemon = fork do
-      system bin/"urxvtd"
-    end
+    daemon = spawn bin/"urxvtd"
     sleep 2
     system bin/"urxvtc", "-k"
     Process.wait daemon
